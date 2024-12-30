@@ -1,0 +1,170 @@
+syntax = "proto2";
+
+package stats;
+
+message Item {
+    required string key = 1;
+    required int32 count = 2;
+}
+
+message Count {
+	repeated Item sent = 1;
+	repeated Item received = 2;
+}
+
+message WordAndEmojiCount {
+	required Count words = 1;
+	required Count emojis = 2;
+}
+
+message MessageCount {
+	required int32 sent = 1;
+	required int32 received = 2;
+}
+
+message Average {
+	required float sent = 1;
+	required float received = 2;
+}
+
+message MessageReactionSummary {
+	required string message_guid = 1;
+	required string message_content = 2;
+	required int32 chat_id = 3;
+	required string name = 4;
+	required int32 total_count = 5;
+	required ReactionCounts reaction_counts = 6;
+}
+
+message ReactionCounts {
+	required int32 loved = 1;
+	required int32 liked = 2;
+	required int32 disliked = 3;
+	required int32 laughed = 4;
+	required int32 emphasized = 5;
+	required int32 questioned = 6;
+}
+
+message Chat {
+    required int32 chat_id = 1;
+    required string name = 2;
+    required int32 sent = 3;
+    required int32 received = 4;
+    required bool is_group_chat = 5;
+    optional bytes avatar = 6;
+}
+
+message TopChatsResult {
+    required int32 total_conversations = 1;
+    repeated Chat chats = 2;
+}
+
+message TopTexter {
+    required string name = 1;
+    required int32 message_count = 2;
+    optional bytes avatar = 3;
+    required string handle_id = 4;
+}
+
+message TopTextersByChat {
+    required int32 chat_id = 1;
+    required string name = 2;
+    repeated TopTexter top_texters = 3;
+}
+
+message LeftOnReadTotals {
+    required int32 left_on_read = 1;
+    required int32 ignored_by_me = 2;
+}
+
+message ChatLeftOnRead {
+    required string name = 1;
+    required int32 chat_id = 2;
+    required int32 left_on_read = 3;
+    required int32 ignored_by_me = 4;
+}
+
+message MessagesLeftOnRead {
+    required LeftOnReadTotals totals = 1;
+    repeated ChatLeftOnRead by_chat = 2;
+}
+
+message ResponseTimeStats {
+    required string name = 1;
+    required string handle_id = 2;
+    required int64 average_time_in_seconds = 3;
+    optional bytes avatar = 4;
+}
+
+message LongestMessageStats {
+    required string name = 1;
+    required string handle_id = 2;
+    required string message = 3;
+    required int32 word_count = 4;
+    optional bytes avatar = 5;
+}
+
+message ReactionerStats {
+    required string name = 1;
+    required string handle_id = 2;
+    required int32 reaction_count = 3;
+    optional bytes avatar = 4;
+}
+
+message PhraseStats {
+    required string name = 1;
+    required string handle_id = 2;
+    required int32 count = 3;
+    optional bytes avatar = 4;
+}
+
+message DoubleTextStats {
+    required string name = 1;
+    required string handle_id = 2;
+    required int32 double_text_count = 3;
+    optional bytes avatar = 4;
+}
+
+message SendReceivedRatioStats {
+    required string name = 1;
+    required string handle_id = 2;
+    required int32 sent = 3;
+    required int32 received = 4;
+    optional bytes avatar = 5;
+}
+message YearStats {
+	required int32 year = 1;
+	required MessageCount message_count = 2;
+	repeated MessageCount monthly_stats = 3;    
+	repeated MessageCount weekday_stats = 4;
+	repeated MessageCount hourly_stats = 5;
+	required Item most_sent = 6;
+	required WordAndEmojiCount word_count = 7;
+	required Average average_per_day = 8;
+	repeated MessageReactionSummary most_reactions = 9;
+	required TopChatsResult top_group_chats = 10;
+	required TopChatsResult top_individual_chats = 11;
+	required TopChatsResult top_down_bad_chats = 12;
+	required TopTextersByChat top_texters_by_top_chat = 13;
+	required MessagesLeftOnRead top_left_on_read = 14;
+	required MessageCount total_characters = 15;
+	required Chat top_user_by_slurs = 16;
+	required ResponseTimeStats fastest_responder = 17;
+	required ResponseTimeStats slowest_responder = 18;
+	required LongestMessageStats longest_message = 19;
+	required ReactionerStats top_hater = 20;
+	required ReactionerStats top_glazer = 21;
+	required PhraseStats top_favor_asker = 22;
+	required PhraseStats top_freaky_texter = 23;
+	required DoubleTextStats top_double_texter = 24;
+	required TopTextersByChat top_group_chat_by_slurs = 26;
+	required SendReceivedRatioStats worst_send_received_ratio = 27;
+	required PhraseStats top_realest_friend = 28;
+	required PhraseStats dirtiest_mouth = 29;
+	required PhraseStats most_degenerate = 30;
+}
+
+message YearsStats {
+	repeated int32 years = 1;
+	repeated YearStats stats = 2;
+}
